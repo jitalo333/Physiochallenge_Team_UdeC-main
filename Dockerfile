@@ -1,4 +1,4 @@
-FROM python:3.10.16-buster
+FROM python:3.10-buster
 
 ## DO NOT EDIT these 3 lines.
 RUN mkdir /challenge
