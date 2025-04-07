@@ -37,13 +37,15 @@ ply==3.11
 prometheus_client==0.21.1
 pyls-spyder==0.4.0
 pyparsing==3.2.3
-PyQt5==5.15.10
-PyQtWebEngine==5.15.6
+# PyQt5 y PyQtWebEngine requieren entorno gráfico y dependencias pesadas.
+# Si necesitas usarlos, instala con: pip install --only-binary :all: PyQt5==5.15.10
+#PyQt5==5.15.10
+#PyQtWebEngine==5.15.6
 python-json-logger==3.3.0
 pytz==2025.2
 PyWavelets==1.8.0
-pywin32==308
-pywinpty==2.0.15
+pywin32==308; sys_platform == "win32"
+pywinpty==2.0.15; sys_platform == "win32"
 rfc3339-validator==0.1.4
 rfc3986-validator==0.1.1
 scikit-learn==1.6.1
