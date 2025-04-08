@@ -52,8 +52,8 @@ def train_model(data_folder, model_folder, verbose):
     if verbose:
         print('Extracting features and labels from the data...')
 
-    features = np.zeros((num_records, 21), dtype=np.float64)
-    labels = np.zeros(num_records, dtype=bool)
+    features = []
+    labels = []
 
     # Iterate over the records.
     error = 0
@@ -68,13 +68,15 @@ def train_model(data_folder, model_folder, verbose):
 
         numeric_feature = np.array(feature, dtype=float)
         
-        
         if np.isnan(numeric_feature).any():
             error += 1
             continue
 
-        features[i] = feature
-        labels[i] = load_label(record)
+        features.append(numeric_feature)
+        labels.append(load_label(record))
+    
+    features = np.stack(features)
+    labels = np.stack(labels)
     
     print("Signal error counter:", error)
 
@@ -159,7 +161,7 @@ def run_model(record, model, verbose):
     features = extract_features(record)
     numeric_feature = np.array(features, dtype=float)
     if np.isnan(numeric_feature).any():
-        return None, None
+        return 0, 0
     
     features = features.reshape(1, -1)
 
@@ -214,7 +216,7 @@ def extract_features(record):
         } 
 
         features = flatten_features_dict(base_features)
-        if len(features) != 21:
+        if any(is_invalid(f) for f in features):
             return None
 
         return features
